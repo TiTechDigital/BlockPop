@@ -1,13 +1,15 @@
 import { View } from "react-native";
 import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
-import { makeStyles } from "@/src/theme";
+import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
+import { makeStyles, useTheme } from "@/src/theme";
 import { Block, useBlockColors } from "./Block";
 import { SIZE, type Grid } from "./logic";
 
 export type Ghost = { cells: Set<string>; color: number; rows: number[]; cols: number[] } | null;
 
-export function Board({ grid, cell, ghost }: { grid: Grid; cell: number; ghost: Ghost }) {
+export function Board({ grid, cell, ghost, gems = [] }: { grid: Grid; cell: number; ghost: Ghost; gems?: string[] }) {
   const styles = useStyles();
+  const { colors } = useTheme();
   const palette = useBlockColors();
   const idx = Array.from({ length: SIZE }, (_, i) => i);
 
@@ -35,6 +37,11 @@ export function Board({ grid, cell, ghost }: { grid: Grid; cell: number; ghost: 
               testID={`board-cell-${r}-${c}`}
             >
               <Block size={cell} color={palette[lit ? ghost.color : v]} />
+              {gems.includes(`${r}-${c}`) && (
+                <View style={[styles.gem, { width: cell, height: cell }]} testID={`gem-${r}-${c}`}>
+                  <MaterialDesignIcons name="diamond-stone" size={cell * 0.62} color={colors.onSurface} />
+                </View>
+              )}
             </Animated.View>
           );
         }),
@@ -59,6 +66,9 @@ export function Board({ grid, cell, ghost }: { grid: Grid; cell: number; ghost: 
 
 const useStyles = makeStyles((colors) => ({
   abs: { position: "absolute" },
+  gem: {
+    position: "absolute", top: 0, left: 0, alignItems: "center", justifyContent: "center",
+  },
   empty: {
     position: "absolute",
     backgroundColor: colors.boardCell,

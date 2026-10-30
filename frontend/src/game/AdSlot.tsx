@@ -1,9 +1,17 @@
 import { Text, View } from "react-native";
 import { makeStyles } from "@/src/theme";
+import { NativeBanner, nativeAdsAvailable } from "@/src/ads/Ads";
 
-// Placeholder ad spaces. Replace the inner content with your ad SDK component later.
+// Real AdMob banners in native builds; dashed placeholders in Expo Go / web preview.
 export function AdBanner() {
   const styles = useStyles();
+  if (nativeAdsAvailable) {
+    return (
+      <View style={styles.nativeWrap} testID="ad-banner">
+        <NativeBanner size="BANNER" />
+      </View>
+    );
+  }
   return (
     <View style={styles.banner} testID="ad-banner-placeholder">
       <Text style={styles.label}>AD BANNER · 320×50</Text>
@@ -13,6 +21,13 @@ export function AdBanner() {
 
 export function AdBox() {
   const styles = useStyles();
+  if (nativeAdsAvailable) {
+    return (
+      <View style={styles.nativeWrap} testID="ad-gameover">
+        <NativeBanner size="MEDIUM_RECTANGLE" />
+      </View>
+    );
+  }
   return (
     <View style={styles.box} testID="ad-gameover-placeholder">
       <Text style={styles.label}>AD SPACE · 300×250</Text>
@@ -21,6 +36,7 @@ export function AdBox() {
 }
 
 const useStyles = makeStyles((colors) => ({
+  nativeWrap: { alignItems: "center", alignSelf: "stretch", minHeight: 50 },
   banner: {
     height: 50,
     width: 320,
@@ -36,8 +52,7 @@ const useStyles = makeStyles((colors) => ({
   },
   box: {
     width: "100%",
-    aspectRatio: 300 / 250,
-    maxHeight: 220,
+    height: 150,
     borderRadius: 12,
     borderWidth: 1,
     borderStyle: "dashed",
