@@ -1,0 +1,126 @@
+{
+  "app_name": "BlockBlastREA",
+  "personality": "7 Dark-First Utility fused with 4 Tactile / Playful",
+  "personality_one_liner": "A high-contrast, responsive puzzle environment prioritizing immediate tactile feedback, vibrant jewel-toned blocks, and a focused slate-dark background.",
+  "color": {
+    "surface": "#1B1D22",
+    "onSurface": "#FFFFFF",
+    "surfaceSecondary": "#252830",
+    "onSurfaceSecondary": "#FFFFFF",
+    "surfaceTertiary": "#2F333D",
+    "onSurfaceTertiary": "#FFFFFF",
+    "surfaceInverse": "#FFFFFF",
+    "onSurfaceInverse": "#1B1D22",
+    "brand": "#FFC83D",
+    "brandPrimary": "#FFC83D",
+    "onBrandPrimary": "#1B1D22",
+    "brandSecondary": "#E8232E",
+    "onBrandSecondary": "#FFFFFF",
+    "brandTertiary": "#3D6BFF",
+    "onBrandTertiary": "#FFFFFF",
+    "success": "#3DAD4A",
+    "onSuccess": "#FFFFFF",
+    "warning": "#FF7A2E",
+    "onWarning": "#FFFFFF",
+    "error": "#E8232E",
+    "onError": "#FFFFFF",
+    "info": "#3DE0FF",
+    "onInfo": "#1B1D22",
+    "border": "#2F333D",
+    "borderStrong": "#4A505C",
+    "divider": "#2F333D",
+    "muted": "#848B98",
+    "onBrand": "#1B1D22",
+    "blockRed": "#E8232E",
+    "blockBlue": "#3D6BFF",
+    "blockYellow": "#FFC83D",
+    "blockGreen": "#3DAD4A",
+    "blockPurple": "#9C3DE8",
+    "blockOrange": "#FF7A2E",
+    "blockCyan": "#3DE0FF",
+    "blockPink": "#FF6BCC",
+    "blockBevelLight": "rgba(255, 255, 255, 0.3)",
+    "blockBevelDark": "rgba(0, 0, 0, 0.3)"
+  },
+  "typography": {
+    "displayFontFamily": "Fredoka",
+    "textFontFamily": "Nunito",
+    "scale": {
+      "sm": 12,
+      "base": 14,
+      "lg": 16,
+      "xl": 20,
+      "2xl": 24,
+      "3xl": 32,
+      "4xl": 48
+    }
+  },
+  "spacing": {
+    "rule": "Generous vertical spacing between board and tray to prevent accidental touches. Board padding tight to maximize grid size.",
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "2xl": 32,
+    "3xl": 48
+  },
+  "radius_tokens": {
+    "sm": 4,
+    "md": 8,
+    "lg": 12,
+    "pill": 999
+  },
+  "shadow_tier": "1",
+  "navigation": "stack_only",
+  "icon_set": "MaterialCommunityIcons",
+  "glassmorphism": {
+    "enabled": "false",
+    "do's": [],
+    "dont's": ["Do not use blur for blocks or board, maintain solid performance-first rendering."]
+  },
+  "platform_libraries": {
+    "glass": {
+      "ios": "expo-glass-effect",
+      "android": "expo-blur",
+      "low_end_android_fallback": "solid surfaceSecondary"
+    },
+    "image": "expo-image",
+    "blur": "expo-blur",
+    "bottom_sheet": "@gorhom/bottom-sheet",
+    "animation": "react-native-reanimated",
+    "gesture": "react-native-gesture-handler"
+  },
+  "screens": [
+    {
+      "name": "Game",
+      "purpose": "Core gameplay loop consisting of a score header, an 8x8 matrix board, a 3-slot piece tray, and a placeholder ad banner at the bottom.",
+      "states": {
+        "loading": "Centered spinner",
+        "empty": "N/A - Game always renders a state",
+        "error": "Error boundary with 'Restart Game' CTA"
+      },
+      "layout": "Vertical Layout. Top: Score on left, Best Score (with Crown icon) on right. Middle: 8x8 Grid (filling width minus safe margins). Bottom: Tray displaying 3 spawnable block clusters. Footer: Placeholder Ad Banner anchored to the bottom edge. Modal overlay for Game Over with placeholder ad spot."
+    }
+  ],
+  "images": {},
+  "haptics": {
+    "block_pickup": "selection",
+    "block_hover_valid": "light",
+    "block_drop": "medium",
+    "line_clear": "heavy",
+    "game_over": "error"
+  },
+  "instructions_to_main_agent": [
+    "Implement an 8x8 grid as a 2D array state.",
+    "Use react-native-reanimated and react-native-gesture-handler for dragging pieces from the tray onto the board.",
+    "Render block pieces with a tactile 3D bevel. This can be achieved natively without images by applying a light top/left border (rgba(255,255,255,0.3)) and a dark bottom/right border (rgba(0,0,0,0.3)) on each cell of a block.",
+    "When dragging a piece over the board, implement a 'ghost' preview showing where it will land if valid.",
+    "Animate row/column clears by scaling down or flashing the cells before removing them, accompanied by a 'heavy' haptic.",
+    "Combo text ('Great!', 'Excellent!') should pop up over the board using Reanimated, scaling from 0 to 1, then fading out moving upwards.",
+    "Include a 'Game Over' overlay that pauses interaction, displays final score, provides a restart button, and leaves a dedicated block for an Interstitial/Banner Ad slot.",
+    "Place a permanent Banner Ad placeholder view at the very bottom edge of the screen below the piece tray.",
+    "Add a simple Settings icon in the header that opens a bottom sheet to toggle Sounds and Haptics.",
+    "Make sure touch targets for dragging pieces from the bottom tray are oversized using hitSlop to ensure responsive pickups."
+  ]
+}
